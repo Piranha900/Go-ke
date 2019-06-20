@@ -119,6 +119,7 @@ func answerHandler(w http.ResponseWriter, r *http.Request) {
 	processMap["Utente"] = r.FormValue("firstname")
 	convertiGenere, _ := strconv.Atoi(r.FormValue("genere"))
 	convertiRazza, _ := strconv.Atoi(r.FormValue("razza"))
+
 	selezioni := []int{convertiGenere, convertiRazza}
 	processMap["Genere"] = Conf.Genere[convertiGenere]
 	processMap["Razza"] = Conf.Razza[convertiRazza]
