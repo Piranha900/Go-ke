@@ -64,11 +64,18 @@ func Genera(pm map[string]string, s []int) map[string]string {
 	return pm
 }
 
-func pdfCreate(pdm map[string]string) error {
+func pdfCreate(pdm map[string]string)  {
 	pdf := gofpdf.New("P", "mm", "A4", "") //crea il pdf
 	pdf.AddPage()                          //crea la pagina
 	pdf.SetFont("Arial", "B", 12)          //imposta il font
-	pdf.Cell(40, 10, "Giocatore")          //crea il Nome Giocatore
+
+	for _, str := range pdm {
+		pdf.CellFormat(40, 7, str, "1", 0, "", true, 0, "")
+	}
+
+}
+
+/*	pdf.Cell(40, 10, "Giocatore")          //crea il Nome Giocatore
 	pdf.Cell(40, 10, "Personaggio")        //crea il Nome Personaggio
 	pdf.Ln(8)
 	pdf.SetFont("Arial", "", 10)
@@ -96,15 +103,15 @@ func pdfCreate(pdm map[string]string) error {
 	pdf.Cell(40, 10, pdm["Divinità"])                                             // rimpie la divinità
 	checkErrors(pdf.OutputFileAndClose("La scheda di " + pdm["Utente"] + ".pdf")) //salva il pdf
 	return nil
-}
+}*/
 
 //legge il json
 func init() {
-	checkErrors(ReadFromJSON(&Conf, "../conf.json"))
+	checkErrors(ReadFromJSON(&Conf, "conf.json"))
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl1 := template.Must(template.ParseFiles("../dnd.html"))
+	tmpl1 := template.Must(template.ParseFiles("dnd.html"))
 	homeMap := make(map[string]interface{})
 	homeMap["Razza"] = Conf.Razza
 	homeMap["Genere"] = Conf.Genere
@@ -113,7 +120,7 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func answerHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl2 := template.Must(template.ParseFiles("../answer.html"))
+	tmp2 := template.Must(template.ParseFiles("answer.html"))
 	processMap := make(map[string]string) //mappa per salvare i parametri
 
 	processMap["Utente"] = r.FormValue("firstname")
@@ -125,15 +132,14 @@ func answerHandler(w http.ResponseWriter, r *http.Request) {
 	processMap["Razza"] = Conf.Razza[convertiRazza]
 
 	Genera(processMap, selezioni)
+	checkErrors(tmp2.Execute(w, processMap))
 
-	checkErrors(tmpl2.Execute(w, processMap))
-
-	checkErrors(pdfCreate(processMap))
+	//checkErrors(pdfCreate(processMap))
 }
 
 func main() {
 
-	http.HandleFunc("/home", homeHandler)      //handler della pagina home
+	http.HandleFunc("/", homeHandler)      //handler della pagina home
 	http.HandleFunc("/process", answerHandler) //handler della pagina di risposta /process
 
 	log.Fatal(http.ListenAndServe(":8080", nil)) //hosting pagina
