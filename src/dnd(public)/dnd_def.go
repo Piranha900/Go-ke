@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/jung-kurt/gofpdf"
 	"html/template"
 	"io/ioutil"
@@ -64,19 +65,19 @@ func Genera(pm map[string]string, s []int) map[string]string {
 	return pm
 }
 
-func pdfCreate(pdm map[string]string)  {
+func pdfCreate(pdm map[string]string) *gofpdf.Fpdf {
 	pdf := gofpdf.New("P", "mm", "A4", "") //crea il pdf
 	pdf.AddPage()                          //crea la pagina
 	pdf.SetFont("Arial", "B", 12)          //imposta il font
 
-	for _, str := range pdm {
-		pdf.CellFormat(40, 7, str, "1", 0, "", true, 0, "")
-	}
+	//for _, str := range pdm {
+	//	pdf.CellFormat(40, 7, str, "1", 0, "", true, 0, "")
+	//}
 
-}
+	//}
 
-/*	pdf.Cell(40, 10, "Giocatore")          //crea il Nome Giocatore
-	pdf.Cell(40, 10, "Personaggio")        //crea il Nome Personaggio
+	pdf.Cell(40, 10, "Giocatore")   //crea il Nome Giocatore
+	pdf.Cell(40, 10, "Personaggio") //crea il Nome Personaggio
 	pdf.Ln(8)
 	pdf.SetFont("Arial", "", 10)
 	pdf.Cell(40, 10, pdm["Utente"]) // rimpie il nome giocatore
@@ -97,13 +98,15 @@ func pdfCreate(pdm map[string]string)  {
 	pdf.Cell(40, 10, "Divinita'")    //crea la divinità
 	pdf.Ln(8)
 	pdf.SetFont("Arial", "", 10)
-	pdf.Cell(40, 10, pdm["Allineamento"])                                         // rimpie l'allineamento
-	pdf.Cell(40, 10, pdm["Taglia"])                                               // rimpie la taglia
-	pdf.Cell(40, 10, pdm["Classe"])                                               // rimpie la classe
-	pdf.Cell(40, 10, pdm["Divinità"])                                             // rimpie la divinità
-	checkErrors(pdf.OutputFileAndClose("La scheda di " + pdm["Utente"] + ".pdf")) //salva il pdf
-	return nil
-}*/
+	pdf.Cell(40, 10, pdm["Allineamento"]) // rimpie l'allineamento
+	pdf.Cell(40, 10, pdm["Taglia"])       // rimpie la taglia
+	pdf.Cell(40, 10, pdm["Classe"])       // rimpie la classe
+	pdf.Cell(40, 10, pdm["Divinità"])     // rimpie la divinità
+	//checkErrors(pdf.OutputFileAndClose("La scheda di " + pdm["Utente"] + ".pdf")) //salva il pdf
+
+	fmt.Printf("%T", pdf)
+	return pdf
+}
 
 //legge il json
 func init() {
@@ -134,12 +137,15 @@ func answerHandler(w http.ResponseWriter, r *http.Request) {
 	Genera(processMap, selezioni)
 	checkErrors(tmp2.Execute(w, processMap))
 
-	//checkErrors(pdfCreate(processMap))
+	//var pd = pdfCreate(processMap) //// tell the browser the returned content should be downloaded
+
+	//w.Header().Set("Content-Disposition", "Attachment")
+	//http.ServeFile(w, r, pd)
 }
 
 func main() {
 
-	http.HandleFunc("/", homeHandler)      //handler della pagina home
+	http.HandleFunc("/", homeHandler)          //handler della pagina home
 	http.HandleFunc("/process", answerHandler) //handler della pagina di risposta /process
 
 	log.Fatal(http.ListenAndServe(":8080", nil)) //hosting pagina
