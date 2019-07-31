@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+<div style="text-align: center;">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -10,8 +11,9 @@
     
     <title>Crea la tua scheda</title>
   </head>
+</div>
   <body>
-  
+  <div style="text-align: center;">
   <br>
   <h1><span class="badge badge-info">Generatore di schede DnD</span></h1>
 
@@ -20,6 +22,7 @@
   <h4><span class="badge badge-light">Inserisci le tue preferenze e crea una scheda </span></h4>
 
   <br>
+  </div>
   <form action="process" method="POST">
       <div class="input-group-prepend">
           <label class="input-group-text" for="razza">Scegli una razza</label>
@@ -33,7 +36,7 @@
       </div>
       <br>
 <br>
-  <center>
+  <div style="text-align: center;">
 <div class="input-group-prepend">
     <label class="input-group-text" for="genere">Scegli un Genere</label>
   <select class="custom-select" id="genere" name="genere">
@@ -43,10 +46,10 @@
   {{end}}
   </select>
 </div>
-</center>
+</div>
 <br>
 <br>
-<center>
+<div style="text-align: center;">
    <div class="input-group">
      <div class="input-group-prepend">
        <span class="input-group-text">Inserisci qui il tuo nome</span>
@@ -57,7 +60,7 @@
     <br>
 <input type="submit" value="Crea la mia scheda!">
 
-</center>
+</div>
   </form>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
