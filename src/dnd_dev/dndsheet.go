@@ -2,8 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	//"fmt"
-	"github.com/jung-kurt/gofpdf"
+
 	"html/template"
 	"io/ioutil"
 	//"io"
@@ -69,7 +68,7 @@ func Genera(pm map[string]string, s []int) map[string]string {
 	return pm
 }
 
-func pdfCreate(pdm map[string]string) *gofpdf.Fpdf {
+/*func pdfCreate(pdm map[string]string) *gofpdf.Fpdf {
 	pdf := gofpdf.New("P", "mm", "A4", "") //crea il pdf
 	pdf.AddPage()                          //crea la pagina
 	pdf.SetFont("Arial", "B", 12)          //imposta il font
@@ -104,7 +103,7 @@ func pdfCreate(pdm map[string]string) *gofpdf.Fpdf {
 	pdf.Close()
 
 	return pdf
-}
+}*/
 
 /*
 func bucketSave(){
@@ -188,7 +187,7 @@ func answerHandler(w http.ResponseWriter, r *http.Request) {
 	processMap["Razza"] = Conf.Razza[convertiRazza]
 	Genera(processMap, selezioni)
 	//name :=processMap["Utente"] + ".pdf"
-	pdfCreate(processMap)
+	//pdfCreate(processMap)
 	//bucketSave()
 	//http.ServeFile(w, r, name)
 	//tmp2.Execute(w,pda)
