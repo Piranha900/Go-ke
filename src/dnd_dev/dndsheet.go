@@ -56,7 +56,7 @@ var Conf Datas
 //genera scheda del personaggio randomizzata
 func Genera(pm map[string]string, s []int) map[string]string {
 
-	selezioneNome := Conf.NomePersonaggio[s[0]][s[1]] // crea il nome del personaggio basandosi su razza e genere
+	selezioneNome := Conf.NomePersonaggio[s[1]][s[0]] // crea il nome del personaggio basandosi su razza e genere
 	rand.Seed(time.Now().UnixNano())
 
 	pm["Nome"] = selezioneNome[rand.Intn(len(selezioneNome))]
